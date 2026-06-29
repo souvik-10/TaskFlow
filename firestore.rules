@@ -1,0 +1,11 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /tasks/{taskId} {
+      // Allow read/write only if the user is authenticated and the ownerId matches their uid
+      allow read, write: if request.auth != null && request.auth.uid == resource.data.ownerId;
+      // Allow create only if they set their own uid as ownerId
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.ownerId;
+    }
+  }
+}
