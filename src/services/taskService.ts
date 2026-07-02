@@ -1,4 +1,4 @@
-import { collection, doc, addDoc, getDocs, updateDoc, deleteDoc, query, where, orderBy } from 'firebase/firestore';
+import { collection, doc, addDoc, getDocs, updateDoc, deleteDoc, query, where } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import type { Task } from '../types';
 
