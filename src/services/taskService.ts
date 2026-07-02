@@ -20,15 +20,16 @@ export const taskService = {
   async getUserTasks(userId: string): Promise<Task[]> {
     const q = query(
       collection(db, TASKS_COLLECTION),
-      where('ownerId', '==', userId),
-      orderBy('createdAt', 'desc')
+      where('ownerId', '==', userId)
     );
     
     const snapshot = await getDocs(q);
-    return snapshot.docs.map(doc => ({
+    const tasks = snapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
     })) as Task[];
+    
+    return tasks.sort((a, b) => b.createdAt - a.createdAt);
   },
 
   async updateTask(taskId: string, updates: Partial<Omit<Task, 'id' | 'ownerId' | 'createdAt'>>): Promise<void> {
